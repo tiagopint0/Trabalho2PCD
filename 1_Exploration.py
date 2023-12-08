@@ -66,8 +66,8 @@ graph_data['Month Name'] = graph_data['Date'].dt.month_name().apply(abbrev_month
 print(graph_data)
 
 #Graph using Seaborn
-sb.lineplot(graph_data,x='Date', y='Adj Close',)
+sb.lineplot(graph_data,x='Date', y='Adj Close')
+plt.show()
 
-sb.boxplot(graph_data,x='Year',y='Adj Close')
-
+sb.lineplot(graph_data,x='Year',y='Adj Close')
 plt.show()
