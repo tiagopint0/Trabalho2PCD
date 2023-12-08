@@ -9,6 +9,8 @@ nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/ma
 def abbrev_month(x):
     return x[:3]
 
+def concat_yrmonth(concat_data):
+    return str(concat_data['Date'].year)+concat_data['Date'].strftime('%m')
 #Start
 
 #Data Types
@@ -57,12 +59,15 @@ graph_data = nvda.loc[:,['Date','Adj Close']]
 
 
 #Wrangling the Data for new columns
+graph_data['YearMonth'] = graph_data.apply(concat_yrmonth,axis=1)
 graph_data['Year'] = graph_data['Date'].dt.year
 graph_data['Month'] = graph_data['Date'].dt.month
 graph_data['Month Name'] = graph_data['Date'].dt.month_name().apply(abbrev_month)
-#print(graph_data)
+print(graph_data)
 
 #Graph using Seaborn
 sb.lineplot(graph_data,x='Date', y='Adj Close',)
+
+sb.boxplot(graph_data,x='Year',y='Adj Close')
 
 plt.show()
