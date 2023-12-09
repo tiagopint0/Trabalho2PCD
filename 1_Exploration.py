@@ -49,11 +49,11 @@ Comments about the data that is being described for each column:
 
 Number of rows: 5000, representing 5000 different days
 
-Column Name: Date                Column Name: Open            Column Name: High                Column Name: Low            Column Name: Close                Column Name: Adj Close
-Min: 1999-01-22                  Min: 1.4                     Min:                        Min:                    Min:                        Min:
-Max: 2020-04-01                  Max: 312.77                  Max:                        Max:                    Max:                        Max:
-Median: 2009-08-27               Median: 14.87                Median:                     Median:                 Median:                     Median:
-Std: NAN                         Std: 67                      Std:                        Std:                    Std:                        Std:
+Column Name: Date                Column Name: Open            Column Name: High                Column Name: Low            Column Name: Close                Column Name: Adj Close         Column Name: Volume
+Min: 1999-01-22                  Min: 1.4                     Min: 1.42                        Min: 1.33                   Min: 1.36                         Min: 1.26                      Min: 1 509 058
+Max: 2020-04-01                  Max: 312.77                  Max: 316.32                      Max: 301.49                 Max: 314.70                       Max: 314.51                    Max: 23 077 140
+Median: 2009-08-27               Median: 14.87                Median: 15.13                    Median: 14.63               Median: 14.91                     Median: 314.51                 Median: 13 308 400
+Std: NAN                         Std: 67                      Std: 68.03                       Std: 65.91                  Std: 67.01                        Std: 66.96                     Std: 1 154 203
 
 """
 
