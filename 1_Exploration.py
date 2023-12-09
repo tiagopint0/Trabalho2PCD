@@ -5,12 +5,14 @@ from matplotlib import pyplot as plt
 #Reading the File
 nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
 
+
 #Functions
 def abbrev_month(x):
     return x[:3]
 
 def concat_yrmonth(concat_data):
     return str(concat_data['Date'].year)+concat_data['Date'].strftime('%m')
+
 #Start
 
 #Data Types
@@ -41,14 +43,17 @@ if len(na_vals)!=0 or len(null_vals)!=0:
 print("\nLet's now look at some statistics about our data:\n")
 print(nvda.describe())
 print("\n\n")
+
 """
 Comments about the data that is being described for each column:
 
-Column Name:                Column Name:            Column Name:                Column Name:            Column Name:                Column Name:
-Min:                        Min:                    Min:                        Min:                    Min:                        Min:
-Max:                        Max:                    Max:                        Max:                    Max:                        Max:
-Median:                     Median:                 Median:                     Median:                 Median:                     Median:
-Std:                        Std:                    Std:                        Std:                    Std:                        Std:
+Number of rows: 5000, representing 5000 different days
+
+Column Name: Date                Column Name: Open            Column Name: High                Column Name: Low            Column Name: Close                Column Name: Adj Close
+Min: 1999-01-22                  Min: 1.4                     Min:                        Min:                    Min:                        Min:
+Max: 2020-04-01                  Max: 312.77                  Max:                        Max:                    Max:                        Max:
+Median: 2009-08-27               Median: 14.87                Median:                     Median:                 Median:                     Median:
+Std: NAN                         Std: 67                      Std:                        Std:                    Std:                        Std:
 
 """
 
@@ -67,7 +72,4 @@ print(graph_data)
 
 #Graph using Seaborn
 sb.lineplot(graph_data,x='Date', y='Adj Close')
-plt.show()
-
-sb.lineplot(graph_data,x='Year',y='Adj Close')
 plt.show()
