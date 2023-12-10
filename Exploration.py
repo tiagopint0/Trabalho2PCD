@@ -73,7 +73,26 @@ def exploration():
 
     #Graph using Seaborn
     sb.lineplot(graph_data,x='Date', y='Adj Close')
+    plt.title('Closing Price (Adjusted) Over Time')
     plt.show()
 
+    heat_data = nvda.loc[:,['Open','High','Low', 'Close']].corr()
+    sb.heatmap(heat_data,annot=True)
+    plt.show()
+
+    day_returns = nvda['Adj Close'].pct_change().mul(100)
+
+    sb.lineplot(x = nvda['Date'],y = day_returns.values)
+    plt.title('Daily Returns (%)')
+    plt.ylabel('% Return')
+    plt.show()
+
+    sb.lineplot(nvda, x='Date', y='Adj Close', color='b')
+    ax2 = plt.twinx()
+    sb.lineplot(nvda, x='Date', y='Volume', color='g', alpha=0.5, ax = ax2)
+    plt.title('Closing Price (Adjusted) and Volume Traded')
+    plt.ylabel('Price | Volume')
+    plt.legend(['Adj Close', 'Volume'])
+    plt.show()
 if __name__ == '__main__':
     exploration()
