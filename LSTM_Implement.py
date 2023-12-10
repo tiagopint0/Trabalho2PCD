@@ -51,52 +51,45 @@ model.add(Dense(units=1))
 optimizer = Adam(learning_rate=0.001)
 model.compile(optimizer=optimizer, loss="mean_squared_error")
 
-# Settingt he number fo epochs
+# Setting he number fo epochs
 epochs = int(input("Number of loops through the DataSet: "))
 print("\n")
 
 # Training the model
 model.fit(X_train, y_train, epochs=epochs, batch_size=32)
 
-# Evaluate the model on the test set
+# Evaluating the model
 losstst = model.evaluate(X_test, y_test)
-
-
-# Evaluate the model on the test set
 losstr = model.evaluate(X_train, y_train)
 
-
-# Make predictions using the trained model on both training and test sets
+# Making predictions on the trained model with both training and test sets
 train_predictions = model.predict(X_train)
 test_predictions = model.predict(X_test)
 
-# Inverse transform the predictions to the original scale
+# Inverting the normalization
 train_predictions = norm.inverse_transform(train_predictions)
 test_predictions = norm.inverse_transform(test_predictions)
 y_train_original = norm.inverse_transform(y_train)
 y_test_original = norm.inverse_transform(y_test)
 
 
+# Plotting the real vs. predicted values
+plt.figure(figsize=(10, 5))
 
-# Plot the actual vs. predicted values for training set and test set
-plt.figure(figsize=(12, 6))
-
-
-# Actual values for test set
+# Plotting the real values
 plt.plot(np.concatenate([np.full_like(y_train_original, np.nan), y_test_original]), label="Real", color="blue", linestyle="dashed")
 
-
-# Predicted values for training and test sets
+# Plotting the predicted values
 plt.plot(np.concatenate([train_predictions, test_predictions]), label="Predictions (Test)", color="red")
 
-# Actual values for training set (same color for both training and test sets)
+# Plotting the predicted values of the training set
 plt.plot(train_predictions, label="Predictions (Training)", color="green")
 
 plt.legend()
 plt.title("LSTM Model: Real vs. Predicted")
 plt.show()
 
-print(f"Test Loss: {losstst}")
-print(f"Train Loss: {losstr}")
+print("Test Loss: ", round(losstst, 8))
+print("Train Loss: ", round(losstr, 8))
 
 #%%
