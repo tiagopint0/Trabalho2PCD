@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.optimizers import Adam
+from sklearn.metrics import mean_squared_error, r2_score
+
 
 # Suppress TensorFlow warnings
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -56,40 +58,38 @@ epochs = int(input("Number of loops through the DataSet: "))
 print("\n")
 
 # Training the model
-model.fit(X_train, y_train, epochs=epochs, batch_size=32)
-
-# Evaluating the model
-losstst = model.evaluate(X_test, y_test)
-losstr = model.evaluate(X_train, y_train)
+model.fit(X_train, y_train, epochs=epochs)
 
 # Making predictions on the trained model with both training and test sets
-train_predictions = model.predict(X_train)
 test_predictions = model.predict(X_test)
 
 # Inverting the normalization
-train_predictions = norm.inverse_transform(train_predictions)
-test_predictions = norm.inverse_transform(test_predictions)
 y_train_original = norm.inverse_transform(y_train)
 y_test_original = norm.inverse_transform(y_test)
+test_predictions = norm.inverse_transform(test_predictions)
+
+# Calculating the RMSE and R2
+rmse = (np.sqrt(mean_squared_error(y_test_original, test_predictions)))
+r2 = r2_score(y_test_original, test_predictions)
 
 
 # Plotting the real vs. predicted values
 plt.figure(figsize=(10, 5))
 
-# Plotting the real values
-plt.plot(np.concatenate([np.full_like(y_train_original, np.nan), y_test_original]), label="Real", color="blue", linestyle="dashed")
-
-# Plotting the predicted values
-plt.plot(np.concatenate([train_predictions, test_predictions]), label="Predictions (Test)", color="red")
+# Plotting the predicted values of the training set
+plt.plot(y_test_original, label="Real", color="blue", linestyle="dashed")
 
 # Plotting the predicted values of the training set
-plt.plot(train_predictions, label="Predictions (Training)", color="green")
+plt.plot(test_predictions, label="Predictions", color="red")
 
 plt.legend()
 plt.title("LSTM Model: Real vs. Predicted")
 plt.show()
+print("\n")
 
-print("Test Loss: ", round(losstst, 8))
-print("Train Loss: ", round(losstr, 8))
+print("The model performance for testing set")
+print("--------------------------------------")
+print("RMSE is : ", format(rmse))
+print("R2 score is ", format(r2))
 
 #%%
