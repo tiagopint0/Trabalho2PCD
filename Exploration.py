@@ -1,7 +1,7 @@
 import pandas as pd
 import seaborn as sb
 from matplotlib import pyplot as plt
-
+from ta import momentum as tam
 def exploration():
     #Reading the File
     nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
@@ -77,7 +77,7 @@ def exploration():
     plt.show()
 
     heat_data = nvda.loc[:,['Open','High','Low', 'Close']].corr()
-    sb.heatmap(heat_data,annot=True)
+    sb.heatmap(heat_data)
     plt.show()
 
     day_returns = nvda['Adj Close'].pct_change().mul(100)
@@ -93,6 +93,20 @@ def exploration():
     plt.title('Closing Price (Adjusted) and Volume Traded')
     plt.ylabel('Price | Volume')
     plt.legend(['Adj Close', 'Volume'])
+    plt.show()
+
+    rsi_data = nvda.loc[:,['Date','Adj Close']]
+    rsi_data['rsi_monthly'] = tam.RSIIndicator(close=rsi_data['Adj Close'], window=30).rsi()
+
+    sb.lineplot(rsi_data, x = 'Date', y = 'rsi_monthly', label='RSI (Monthly)', color='blue')
+    plt.axhline(y = 30, color = 'brown', linestyle = '-', label = 'Upper Limit') 
+    plt.axhline(y = 70, color = 'gray', linestyle = '-', label = 'Lower Limit') 
+    plt.title('Relative Strength Index (RSI)')
+    plt.xlabel('Date')
+    plt.ylabel('RSI')
+    plt.ylim([0,100])
+    plt.xlim([rsi_data['Date'].min(),rsi_data['Date'].max()])
+    plt.legend()
     plt.show()
 if __name__ == '__main__':
     exploration()
