@@ -18,23 +18,23 @@ nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/ma
 
 
 # Selecting only the Close values and defining it as a floating
-nvdadata = nvda[["Close"]].values.astype(float)
+nvda_data = nvda[["Close"]].values.astype(float)
 
 # Delete rows with NaN
-nvdadata = nvdadata[~np.isnan(nvdadata).any(axis=1)]
+nvda_data = nvda_data[~np.isnan(nvda_data).any(axis=1)]
 
 # Normalizing the data
 norm = MinMaxScaler(feature_range=(0, 1))
-nvdadata_scaled = norm.fit_transform(nvdadata)
+nvda_data_scaled = norm.fit_transform(nvda_data)
 
 # Creating the time sequence
 timesq = int(input("Time Series in days: "))
 print("\n")
 
 X, y = [], []
-for i in range(len(nvdadata_scaled) - timesq):
-    X.append(nvdadata_scaled[i:i + timesq])
-    y.append(nvdadata_scaled[i + timesq])
+for i in range(len(nvda_data_scaled) - timesq):
+    X.append(nvda_data_scaled[i:i + timesq])
+    y.append(nvda_data_scaled[i + timesq])
 
 X, y = np.array(X), np.array(y)
 
@@ -91,5 +91,28 @@ print("The model performance for testing set")
 print("--------------------------------------")
 print("RMSE is : ", format(rmse))
 print("R2 score is ", format(r2))
+
+print("\n")
+
+if rmse < 1:
+    print(f"The RMSE score of {rmse} is relatiively low, this indicates the model predictions are close to the actual prices")
+elif 1 < rmse < 3:
+    print(f"The RMSE score of {rmse} is not very low, this indicates the model predictions are close but whit some distance to the actual prices")
+elif 3 < rmse < 6:
+    print(f"The RMSE score of {rmse} is not low, this indicates the model predictions are relatively far but whit some distance to the actual prices")
+else:
+    print(f"The RMSE score of {rmse} is high, this indicates the model predictions are far to the actual prices")
+
+print("\n")
+
+if r2 >0.99:
+    print(f"The R2 score of {r2} is very close to 1, this indicates the model explains almost all the variability in the prices")
+elif 0.9 < rmse < 0.99:
+    print(f"The R2 score of {r2} is close to 1, this indicates the model explains a good part the variability in the prices")
+elif 0.75 < rmse < 0.9:
+    print(f"The R2 score of {r2} has some distance to 1, this indicates the model explains a some part the variability in the prices")
+else:
+    print(f"The R2 score of {r2} is not close to 1, this indicates the model doesn't explain the variability in the prices well")
+
 
 #%%
