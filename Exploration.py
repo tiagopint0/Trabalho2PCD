@@ -2,11 +2,7 @@ import pandas as pd
 import seaborn as sb
 from matplotlib import pyplot as plt
 from ta import momentum as tam
-def exploration():
-    #Reading the File
-    nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
-
-
+def exploration(nvda):
     #Functions
     def abbrev_month(x):
         return x[:3]
@@ -109,4 +105,4 @@ def exploration():
     plt.legend()
     plt.show()
 if __name__ == '__main__':
-    exploration()
+    exploration(nvda=pd.DataFrame)
