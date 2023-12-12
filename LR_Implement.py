@@ -77,6 +77,3 @@ elif 0.75 < rmse < 0.9:
 else:
     print(f"The R2 score of {r2} is not close to 1, this indicates the model doesn't explain the variability in the prices well")
 
-
-
-#%%

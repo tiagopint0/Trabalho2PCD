@@ -5,6 +5,7 @@ from Exploration import exploration
 import pandas as pd
 option = 0
 nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
+nvda['Date'] = nvda['Date'].astype('datetime64[ns]')
 #Main Options
 def start():
     print("\nOption 1 - Data Exploration")
@@ -23,13 +24,14 @@ def start():
         option = int(input("Option: "))
         return option
 
+
 def custom_dates_graph():
-    sb.lineplot(nvda, x='Date', y='Adj Close', color='b')
-    ax2 = plt.twinx()
-    sb.lineplot(nvda, x='Date', y='Volume', color='g', alpha=0.5, ax = ax2)
-    plt.title('Closing Price (Adjusted) and Volume Traded')
-    plt.ylabel('Price | Volume')
-    plt.legend(['Adj Close', 'Volume'])
+    start_date = (input("Data de Início (yyyy-mm-dd): "))
+    end_date = (input(" Data de Fim (yyyy-mm-dd): "))
+    nvda_custom = nvda[(start_date<=nvda['Date']) & (nvda['Date']<=end_date)]
+    sb.lineplot(nvda_custom,x=nvda_custom['Date'], y='Adj Close')
+    plt.title('Closing Price (Adjusted) Over Time')
+    plt.ylabel('Price')
     plt.show()
 
 
@@ -39,10 +41,9 @@ def main():
 
     match option:
         case 1:
-            print("Option 1")
             exploration(nvda)
         case 2:
-            print("Option 2")
+            custom_dates_graph()
         case 3:
             print("Option 3")
         case 4:
