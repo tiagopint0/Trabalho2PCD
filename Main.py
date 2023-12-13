@@ -2,6 +2,9 @@ import datetime
 import seaborn as sb
 from matplotlib import pyplot as plt
 from Exploration import exploration
+from LSTM_Implement import lstm_model
+from LR_Implement import lr_model
+
 import pandas as pd
 option = 0
 nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
@@ -48,10 +51,18 @@ def main():
             print("Option 3")
         case 4:
             print("Option 4")
+
         case 5:
-            print("Option 5")
+            lstm_model(nvda)
         case 6:
-            print("Option 6")
+            print("1 - Modelo LSTM")
+            print("2 - Modelo LR")
+            option_6 = int(input('Opção: '))
+            match option_6:
+                case 1:
+                    lstm_model(nvda)
+                case 2:
+                    lr_model(nvda)
         case 7:
             quit()
 
