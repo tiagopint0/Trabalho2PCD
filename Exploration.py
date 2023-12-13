@@ -2,13 +2,15 @@ import pandas as pd
 import seaborn as sb
 from matplotlib import pyplot as plt
 from ta import momentum as tam
+
 def exploration(nvda):
     #Functions
+    def concat_yrmonth(concat_data):
+        return str(concat_data['Date'].year) + '-' + str(concat_data['Date'].month)
+    
     def abbrev_month(x):
         return x[:3]
 
-    def concat_yrmonth(concat_data):
-        return str(concat_data['Date'].year)+concat_data['Date'].strftime('%m')
 
     #Start
 
@@ -54,6 +56,12 @@ def exploration(nvda):
 
     """
 
+    print("\nWhat's the difference, daily, between the High, and Low values of the stock? Let's see below:\n")
+    graph_fluctuations = nvda.loc[:,['Date','High','Low']]
+    graph_fluctuations['Daily Fluctuation'] = round(graph_fluctuations['High']- graph_fluctuations['Low'],3)
+
+    print(graph_fluctuations)
+
     #Overview Graph
 
     #Base Data
@@ -72,10 +80,17 @@ def exploration(nvda):
     plt.title('Closing Price (Adjusted) Over Time')
     plt.show()
 
+    #Daily Fluctuations
+    sb.lineplot(graph_fluctuations,x='Date', y='Daily Fluctuation')
+    plt.title('Closing Price (Adjusted) Over Time')
+    plt.show()
+
+    #Correlation Heatmap
     heat_data = nvda.loc[:,['Open','High','Low', 'Close']].corr()
     sb.heatmap(heat_data)
     plt.show()
 
+    #Daily Returns
     day_returns = nvda['Adj Close'].pct_change().mul(100)
 
     sb.lineplot(x = nvda['Date'],y = day_returns.values)
@@ -83,6 +98,7 @@ def exploration(nvda):
     plt.ylabel('% Return')
     plt.show()
 
+    #Price and Volume over Time
     sb.lineplot(nvda, x='Date', y='Adj Close', color='b')
     ax2 = plt.twinx()
     sb.lineplot(nvda, x='Date', y='Volume', color='g', alpha=0.5, ax = ax2)
@@ -91,6 +107,7 @@ def exploration(nvda):
     plt.legend(['Adj Close', 'Volume'])
     plt.show()
 
+    #RSI Data
     rsi_data = nvda.loc[:,['Date','Adj Close']]
     rsi_data['rsi_monthly'] = tam.RSIIndicator(close=rsi_data['Adj Close'], window=30).rsi()
 
