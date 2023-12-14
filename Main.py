@@ -79,9 +79,7 @@ def main():
                 case 8:
                     rsi_graph(nvda)
                 case 9:
-                     main()
-                    
-
+                     main()      
         case 5:
             lstm_model(nvda)
         case 6:
