@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
@@ -10,8 +11,12 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.metrics import mean_squared_error, r2_score
 
 def lstm_model(nvda):
-# Suppress TensorFlow warnings
+    # Suppress TensorFlow warnings
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
+
+    nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
+
 
     # Selecting only the Close values and defining it as a floating
     nvda_data = nvda[["Close"]].values.astype(float)
@@ -24,7 +29,7 @@ def lstm_model(nvda):
     nvda_data_scaled = norm.fit_transform(nvda_data)
 
     # Creating the time sequence
-    timesq = int(input("Time Series in days: "))
+    timesq = (int(input("Time Series in days: ")))
     print("\n")
 
     X, y = [], []
@@ -40,7 +45,6 @@ def lstm_model(nvda):
     # Splitting the data
     X_train, y_train = X[:split_index], y[:split_index]
     X_test, y_test = X[split_index:], y[split_index:]
-
 
     # Applying the model
     model = Sequential()
@@ -68,7 +72,6 @@ def lstm_model(nvda):
     rmse = (np.sqrt(mean_squared_error(y_test_original, test_predictions)))
     r2 = r2_score(y_test_original, test_predictions)
 
-
     # Plotting the real vs. predicted values
     plt.figure(figsize=(10, 5))
 
@@ -90,11 +93,11 @@ def lstm_model(nvda):
 
     print("\n")
 
-    if rmse <= 10:
+    if rmse < 1:
         print(f"The RMSE score of {rmse} is relatiively low, this indicates the model predictions are close to the actual prices")
-    elif 10 < rmse <= 15:
+    elif 1 < rmse < 3:
         print(f"The RMSE score of {rmse} is not very low, this indicates the model predictions are close but whit some distance to the actual prices")
-    elif 15 < rmse <= 20:
+    elif 3 < rmse < 6:
         print(f"The RMSE score of {rmse} is not low, this indicates the model predictions are relatively far but whit some distance to the actual prices")
     else:
         print(f"The RMSE score of {rmse} is high, this indicates the model predictions are far to the actual prices")
@@ -110,5 +113,34 @@ def lstm_model(nvda):
     else:
         print(f"The R2 score of {r2} is not close to 1, this indicates the model doesn't explain the variability in the prices well")
 
+    # Imputing predictions
+    prediction_days = int(input("Enter the number of days for prediction: "))
+
+    # Creating an array with the last time series
+    last_data = nvda_data_scaled[-timesq:]
+
+    # Creating a list to store the predicted values
+    predictions = []
+
+    # Implementing the  prediction time series
+    for i in range(prediction_days):
+        # Reshaping the array to match the model input shape
+        last_data_reshaped = last_data.reshape(1, timesq, 1)
+
+        # Predicting the Close
+        predicted_value = model.predict(last_data_reshaped)
+        predicted_value = norm.inverse_transform(predicted_value)
+        predictions.append(predicted_value[0, 0])
+        last_data = np.append(last_data[1:], predicted_value)
+
+    print("\n")
+    print("\n")
+
+    # Print the predicted values
+    print("Predicted values for the next", prediction_days, "days:")
+    print(predictions)
+
+
 if __name__ == '__main__':
     lstm_model(nvda=pd.DataFrame)
+
