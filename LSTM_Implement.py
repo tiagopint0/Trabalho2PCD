@@ -15,7 +15,7 @@ def lstm_model(nvda):
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
-    nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
+    #nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
 
 
     # Selecting only the Close values and defining it as a floating

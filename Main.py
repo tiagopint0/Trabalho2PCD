@@ -24,7 +24,7 @@ def start():
         option = int(input("Option: "))
         return option 
     except ValueError:
-        print("Value can't be empty!")
+        print("Invalid Option.")
         option = int(input("Option: "))
         return option
 
@@ -60,7 +60,11 @@ def main():
             print("7 - Closing Price | Volume Over Time")
             print("8 - RSI Graph")
             print("9 - Return to Previous Menu")
-            option_4 = int(input('Option: '))
+            try:
+                option_4 = int(input("Option: "))
+            except ValueError:
+                print("Invalid Option.")
+                option_4 = int(input("Option: "))
             match option_4:
                 case 1:
                     line_fulldate(nvda)
@@ -86,7 +90,11 @@ def main():
             print("1 - LSTM Model")
             print("2 - LR Model")
             print("3 - Return to Previous Menu")
-            option_6 = int(input('Option: '))
+            try:
+                option_6 = int(input("Option: "))
+            except ValueError:
+                print("Invalid Option.")
+                option_6 = int(input("Option: "))
             match option_6:
                 case 1:
                     lstm_model(nvda)

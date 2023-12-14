@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 def lr_model(nvda):
 
-    nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
+    #nvda = pd.read_csv("https://raw.githubusercontent.com/tiagopint0/Trabalho2PCD/main/SourceFile/NVDA.csv")
 
     nvda_reord = ["Open", "High", "Low", "Volume", "Close"]
 
@@ -53,11 +53,11 @@ def lr_model(nvda):
 
     print("\n")
 
-    if r2 >0.99:
+    if round(r2,2) >0.99:
         print(f"The R2 score of {r2} is very close to 1, this indicates the model explains almost all the variability in the prices")
-    elif 0.9 < rmse < 0.99:
+    elif 0.9 < round(r2,2) < 0.99:
         print(f"The R2 score of {r2} is close to 1, this indicates the model explains a good part the variability in the prices")
-    elif 0.75 < rmse < 0.9:
+    elif 0.75 < round(r2,2) < 0.9:
         print(f"The R2 score of {r2} has some distance to 1, this indicates the model explains a some part the variability in the prices")
     else:
         print(f"The R2 score of {r2} is not close to 1, this indicates the model doesn't explain the variability in the prices well")
@@ -82,4 +82,3 @@ if __name__ == '__main__':
     lr_model(nvda=pd.DataFrame)
 
 
-#%%
