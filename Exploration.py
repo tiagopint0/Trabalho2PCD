@@ -82,7 +82,7 @@ def exploration(nvda):
 
     #Daily Fluctuations
     sb.lineplot(graph_fluctuations,x='Date', y='Daily Fluctuation')
-    plt.title('Closing Price (Adjusted) Over Time')
+    plt.title('Daily Fluctuation (High-Low)')
     plt.show()
 
     #Correlation Heatmap

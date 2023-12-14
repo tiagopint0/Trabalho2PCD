@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from ta import momentum as tam
 
 def rsi_graph(nvda):
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     rsi_data = nvda.loc[:,['Date','Adj Close']]
     rsi_data['rsi_monthly'] = tam.RSIIndicator(close=rsi_data['Adj Close'], window=30).rsi()
 
@@ -19,14 +20,16 @@ def rsi_graph(nvda):
     plt.show()
 
 def daily_fluc(nvda):
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     graph_fluctuations = nvda.loc[:,['Date','High','Low']]
     graph_fluctuations['Daily Fluctuation'] = round(graph_fluctuations['High']- graph_fluctuations['Low'],3)
     sb.lineplot(graph_fluctuations,x='Date', y='Daily Fluctuation')
-    plt.title('Closing Price (Adjusted) Over Time')
+    plt.title('Daily Fluctuation (High-Low)')
     plt.show()
 
 def returns_graph(nvda):
-    day_returns = nvda['Adj Close'].pct_change().mul(100)
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
+    day_returns = nvda['Adj Close'].pct_change(fill_method=None).mul(100)
 
     sb.lineplot(x = nvda['Date'],y = day_returns.values)
     plt.title('Daily Returns (%)')
@@ -34,39 +37,44 @@ def returns_graph(nvda):
     plt.show()
 
 def line_fulldate(graph_data):
+    graph_data = graph_data.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     sb.lineplot(graph_data,x='Date', y='Adj Close')
     plt.title('Closing Price (Adjusted) Over Time')
     plt.show()
 
 def line_year(graph_data):
+    graph_data = graph_data.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     graph_data['Year'] = graph_data['Date'].dt.year
-    graph_data = graph_data.loc['Year','Adj Close']
-    graph_data = graph_data.group_by(['Year']).mean()
+    graph_data = graph_data.loc[:,['Year','Adj Close']]
+    graph_data = graph_data.groupby(['Year']).mean()
     sb.lineplot(graph_data,x='Year', y='Adj Close')
     plt.title('Avg. Closing Price (Adjusted) by Year')
     plt.show()
 
 def line_month(graph_data):
-    def concat_yrmonth(concat_data):
-        return str(concat_data['Date'].year) + '-' + str(concat_data['Date'].month)
+    def concat_yrmonth(x):
+        year_month = x.strftime('%Y-%m')
+        return year_month
     
+    graph_data = graph_data.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     graph_data['Year'] = graph_data['Date'].dt.year
     graph_data['Month'] = graph_data['Date'].dt.month
     graph_data['Year_Month'] = graph_data['Date'].apply(concat_yrmonth)
-
-    graph_data = graph_data.loc['Year_Month','Adj Close']
-    graph_data = graph_data.group_by(['Year_Month']).mean()
+    graph_data = graph_data.loc[:,['Year_Month','Adj Close']]
+    graph_data = graph_data.groupby(['Year_Month']).mean()
     sb.lineplot(graph_data,x='Year_Month', y='Adj Close')
     plt.title('Avg. Closing Price (Adjusted) by Year Month')
     plt.show()
 
 
 def heatmap(nvda):
-    heat_data = nvda.loc[:,['Open','High','Low', 'Close']].corr()
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
+    heat_data = nvda.loc[:,['Open','High','Low', 'Close','Adj Close']].corr()
     sb.heatmap(heat_data)
     plt.show()
 
 def price_over_volume_graph(nvda):
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     sb.lineplot(nvda, x='Date', y='Adj Close')
     ax2 = plt.twinx()
     sb.lineplot(nvda, x='Date', y='Volume', alpha=0.5, ax = ax2) # type: ignore
@@ -76,6 +84,7 @@ def price_over_volume_graph(nvda):
     plt.show()
 
 def display_all(nvda):
+    nvda = nvda.astype({'Date': 'datetime64[ns]','Open':'float','High':'float','Low':'float','Close':'float','Adj Close':'float','Volume':'float'})
     line_fulldate(nvda)
     line_year(nvda)
     line_month(nvda)
