@@ -83,14 +83,20 @@ def options_4():
             options_4() 
     options_4()
 
-def custom_dates_graph():
+def custom_dates_graph(nvda):
     start_date = 'a'
     end_date = 'a'
-    max_date = nvda
-    while start_date == '':
+    max_date = max(nvda['Date'])
+    min_date = min(nvda['Date'])
+
+    start_date = (input("Start Date (yyyy-mm-dd): "))
+    while start_date == '' or (min_date > start_date) or (start_date > max_date):
         start_date = (input("Start Date (yyyy-mm-dd): "))
-    while start_date == '':
+
+    end_date = (input("End Date (yyyy-mm-dd): "))    
+    while end_date == '' or (end_date > max_date) or (end_date < min_date):
         end_date = (input("End Date (yyyy-mm-dd): "))
+    
     nvda_custom = nvda[(start_date<=nvda['Date']) & (nvda['Date']<=end_date)]
     sb.lineplot(nvda_custom,x=nvda_custom['Date'], y='Adj Close')
     plt.title('Closing Price (Adjusted) Over Time')
