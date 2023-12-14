@@ -67,9 +67,9 @@ def heatmap(nvda):
     plt.show()
 
 def price_over_volume_graph(nvda):
-    sb.lineplot(nvda, x='Date', y='Adj Close', color='b')
+    sb.lineplot(nvda, x='Date', y='Adj Close')
     ax2 = plt.twinx()
-    sb.lineplot(nvda, x='Date', y='Volume', color='g', alpha=0.5, ax = ax2)
+    sb.lineplot(nvda, x='Date', y='Volume', alpha=0.5, ax = ax2) # type: ignore
     plt.title('Closing Price (Adjusted) and Volume Traded')
     plt.ylabel('Price | Volume')
     plt.legend(['Adj Close', 'Volume'])

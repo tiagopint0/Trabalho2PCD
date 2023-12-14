@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.metrics import mean_squared_error, r2_score
 
 def lstm_model(nvda):
-# Suppress TensorFlow warnings
+    # Suppress TensorFlow warnings
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
     # Selecting only the Close values and defining it as a floating
@@ -101,11 +101,11 @@ def lstm_model(nvda):
 
     print("\n")
 
-    if r2 >0.99:
+    if round(r2,2) >0.99: # type: ignore
         print(f"The R2 score of {r2} is very close to 1, this indicates the model explains almost all the variability in the prices")
-    elif 0.9 < rmse < 0.99:
+    elif 0.9 < round(r2,2) < 0.99: # type: ignore
         print(f"The R2 score of {r2} is close to 1, this indicates the model explains a good part the variability in the prices")
-    elif 0.75 < rmse < 0.9:
+    elif 0.75 < round(r2,2) < 0.9: # type: ignore
         print(f"The R2 score of {r2} has some distance to 1, this indicates the model explains a some part the variability in the prices")
     else:
         print(f"The R2 score of {r2} is not close to 1, this indicates the model doesn't explain the variability in the prices well")
