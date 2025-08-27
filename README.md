@@ -3,10 +3,7 @@ Work 2
 Programming for Data Scientists
 Master in Data Science
 2023/2024
-Goals
-• Python programming skills
-• Data manipulation and data visualization
-• Machine Learning Introduction
+
 Description:
 In this project, students will work with historical stock price data to build a model that predicts 
 future stock prices. The dataset includes information such as opening price, closing price, 
@@ -60,5 +57,3 @@ Documentation:
 Submit on Moodle the Python script. Comment your code and write as comments the 
 conclusions of your analysis. It is mandatory to use functions and small menus to allow the 
 user to visualise and select the intended option.
-
-Good work
